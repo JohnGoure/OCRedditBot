@@ -22,25 +22,28 @@ else:
         comments_read = list(filter(None, comments_read))
 
 subreddit = reddit.subreddit('pythonforengineers')
-for submission in subreddit.hot(limit=10):
+for submission in subreddit.hot(limit=20):
     if submission.id not in posts_replied_to:
+        # Search the submissions title and text
         if re.search("i love python", submission.title, re.IGNORECASE) or re.search('i love python', submission.selftext, re.IGNORECASE):
             submission.reply("Me TOO!!")
-            posts_replied_to.append(submission.id)
-            with open('posts_replied_to.txt', 'w') as f:
-                for post_id in posts_replied_to:
-                    f.write(post_id + '\n')
+            posts_replied_to.append(submission.id)            
         elif re.search("test", submission.title, re.IGNORECASE) or re.search('test', submission.selftext, re.IGNORECASE):
             submission.reply('What are we testing?')
             posts_replied_to.append(submission.id)
-            with open('posts_replied_to.txt', 'w') as f:
-                for post_id in posts_replied_to:
-                    f.write(post_id + '\n')
+
+        # Remove the "More Comments" comments from the list of comments    
         submission.comments.replace_more(limit=0)
+
+        # Search the submissions comments
         for comment in submission.comments.list():
             if comment.id not in comments_read:
                 print(comment.body)
                 comments_read.append(comment.id)
+
+with open('posts_replied_to.txt', 'w') as f:
+                for post_id in posts_replied_to:
+                    f.write(post_id + '\n')
             
 with open('comments_read.txt', 'w') as f:
     for comment_id in comments_read:
