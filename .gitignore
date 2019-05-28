@@ -1,1 +1,3 @@
 praw.ini
+*.sh
+bash_cron_log.txt
