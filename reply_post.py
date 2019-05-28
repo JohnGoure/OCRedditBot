@@ -18,7 +18,12 @@ for submission in subreddit.hot(limit=5):
     if submission.id not in posts_replied_to:
         if re.search("i love python", submission.title, re.IGNORECASE):
             submission.reply("Me TOO!!")
-            print('Bot replying to : ', submission.title)
+            posts_replied_to.append(submission.id)
+            with open('posts_replied_to.txt', 'w') as f:
+                for post_id in posts_replied_to:
+                    f.write(post_id + '\n')
+        elif re.search("test", submission.title, re.IGNORECASE):
+            submission.reply('What are we testing?')
             posts_replied_to.append(submission.id)
             with open('posts_replied_to.txt', 'w') as f:
                 for post_id in posts_replied_to:
