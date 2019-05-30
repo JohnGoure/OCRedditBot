@@ -1,3 +1,9 @@
 praw.ini
 *.sh
 bash_cron_log.txt
+bin
+.vscode
+include
+lib64
+lib
+share
